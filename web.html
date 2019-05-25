@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+		<title>smurl</title>
+	</head>
+	<body>
+		<div class="container my-5">
+			<ul class="nav nav-pills nav-fill">
+				<li class="nav-item">
+					<a class="nav-link active" href="#" id="a_sm">缩短网址</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#" id="a_url">还原网址</a>
+				</li>
+			</ul>
+			<div class="input-group my-3" id="div_sm">
+				<input type="text" id="in_sm" class="form-control" placeholder="请输入长网址" aria-label="请输入长网址" aria-describedby="basic-addon1">
+				<div class="input-group-append">
+					<button class="btn btn-primary" type="button" id="btn_sm">缩短网址</button>
+				</div>
+			</div>
+			<div class="input-group my-3" id="div_url">
+				<input type="text" id="in_url" class="form-control" placeholder="请输入短网址" aria-label="请输入短网址" aria-describedby="basic-addon2">
+				<div class="input-group-append">
+					<button class="btn btn-primary" type="button" id="btn_url">还原网址</button>
+				</div>
+			</div>
+			<blockquote class="blockquote border px-3 py-3" id="block">
+				  <p class="mb-0" id="out"></p>
+			</blockquote>
+		</div>
+
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<!-- <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+		<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+		<script>
+			$(function(){
+				$("#div_url").hide();
+				$("#block").hide();
+
+				$("#a_sm").click(function(){
+					$("#div_sm").show();
+					$("#div_url").hide();
+					$("#a_sm").addClass("active");
+					$("#a_url").removeClass("active");
+					$("#block").hide();
+				});
+
+				$("#a_url").click(function(){
+					$("#div_sm").hide();
+					$("#div_url").show();
+					$("#a_sm").removeClass("active");
+					$("#a_url").addClass("active");
+					$("#block").hide();
+				});
+
+				$("#btn_sm").click(function(){
+					var url = $("#in_sm").val();
+					url = encodeURIComponent(btoa(url));
+					var path = "/" + url + "/en";
+					$.get(path, function(data, status){
+						$("#block").show();
+						$("#out").text(data);
+					});
+				});
+
+				$("#btn_url").click(function(){
+					var url = $("#in_url").val();
+					var urlarr = url.split("/");
+					var key = urlarr[urlarr.length-1];
+					var path = "/" + key + "/de";
+					$.get(path, function(data, status){
+						$("#block").show();
+						$("#out").text(data);
+					});
+				});
+
+			});
+		</script>
+	</body>
+</html>

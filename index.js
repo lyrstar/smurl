@@ -21,10 +21,6 @@ console.log('urls:', URLS);
 var server = http.createServer(function(request, response) {
 	request.setEncoding('utf-8');
 	parseHttpRequestData(request, response);
-	//解决http://127.0.0.1:3000/favicon.ico 引起的重复请求
-	//if(url_Obj_Json.path != "/favicon.ico"){
-	//	response.write(util.inspect(url.parse(request.url, true)));
-	//}
 	let handler = getHandler(request, response);
 	if (! handler) {
 		response.writeHead(404, {'Content-Type':'text/html;charset=utf-8'});
@@ -32,7 +28,6 @@ var server = http.createServer(function(request, response) {
 	} else {
 		handler(request, response);
 	}
-	//response.writeHead(301, {'Location': 'http://itbilu.com/'});
 	response.end();
 });
 server.listen(8000);
@@ -41,7 +36,7 @@ console.log('HTTP服务器启动中，端口：8000.....');
 //////////////////////////////////////////////////////////////////////
 
 function WebUI(req, res) {
-	let str = fs.readFileSync(path.resolve(__dirname, './index.html'), 'utf-8');
+	let str = fs.readFileSync(path.resolve(__dirname, './web.html'), 'utf-8');
 	res.writeHead(200, {'Content-Type':'text/html;charset=utf-8'});
 	res.write(str);
 }
